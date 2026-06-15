@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه تست بلاگ</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>وبلاگ آموزشی جنگو</h1>
+        <nav>
+            <a href="#">خانه</a> |
+            <a href="#">مقالات</a> |
+            <a href="#">درباره ما</a> |
+            <a href="#">تماس با ما</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+
+        <article>
+
+            <h2>عنوان مقاله تستی</h2>
+
+            <p>
+                این یک پاراگراف تستی است. در این متن می‌توان از
+                <strong>متن بولد</strong>,
+                <em>متن ایتالیک</em>,
+                <mark>هایلایت</mark>
+                و <a href="#">لینک</a> استفاده کرد.
+            </p>
+
+            <form method="GET">
+                <label for="search">جستجو:</label>
+                <input type="text" id="search" name="q" value="{{ query }}">
+                <button type="submit">جستجو</button>
+            </form>
+
+            <h3>postsssssss</h3>
+            {% for post in posts %}
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% endif %}
+            {% endfor %}
+
+            {% if posts.has_previous %}
+                <a href="?page={{ posts.previous_page_number }}">قبلی</a>
+            {% endif %}
+            <span>صفحه {{ posts.number }}</span>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">بعدی</a>
+            {% endif %}
+
+
+            <img src="https://via.placeholder.com/600x300"
+                 alt="تصویر نمونه">
+
+            <h3>لیست نامرتب</h3>
+
+            <ul>
+                <li>آیتم اول</li>
+                <li>آیتم دوم</li>
+                <li>آیتم سوم</li>
+            </ul>
+
+            <h3>لیست مرتب</h3>
+
+            <ol>
+                <li>مرحله اول</li>
+                <li>مرحله دوم</li>
+                <li>مرحله سوم</li>
+            </ol>
+
+            <h3>نقل قول</h3>
+
+            <blockquote>
+                موفقیت حاصل تکرار کارهای کوچک به صورت مداوم است.
+            </blockquote>
+
+            <h3>کد برنامه‌نویسی</h3>
+
+            <pre>
+<code>
+def hello():
+    print("Hello Django")
+</code>
+            </pre>
+
+            <h3>جدول</h3>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>نام</th>
+                        <th>سن</th>
+                        <th>شغل</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>علی</td>
+                        <td>25</td>
+                        <td>برنامه نویس</td>
+                    </tr>
+
+                    <tr>
+                        <td>رضا</td>
+                        <td>30</td>
+                        <td>طراح سایت</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </article>
+
+        <hr>
+
+        <section>
+
+            <h2>فرم ارسال دیدگاه</h2>
+
+            <form action="#" method="post">
+
+                <label for="name">نام:</label>
+                <input type="text" id="name" name="name">
+
+                <br><br>
+
+                <label for="email">ایمیل:</label>
+                <input type="email" id="email" name="email">
+
+                <br><br>
+
+                <label for="message">پیام:</label>
+                <br>
+                <textarea id="message" rows="5" cols="40"></textarea>
+
+                <br><br>
+
+                <label>
+                    <input type="checkbox">
+                    قوانین را می‌پذیرم
+                </label>
+
+                <br><br>
+
+                <button type="submit">ارسال</button>
+
+            </form>
+
+        </section>
+
+        <hr>
+
+        <aside>
+            <h3>مطالب پیشنهادی</h3>
+
+            <ul>
+                <li><a href="#">آموزش Django</a></li>
+                <li><a href="#">آموزش HTML</a></li>
+                <li><a href="#">آموزش CSS</a></li>
+            </ul>
+        </aside>
+
+    </main>
+
+    <hr>
+
+    <footer>
+        <p>© 2026 تمامی حقوق محفوظ است.</p>
+    </footer>
+
+</body>
+</html>
