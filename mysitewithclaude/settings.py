@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'rest_framework',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ REST_FRAMEWORK = {
 }
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
