@@ -1,12 +1,12 @@
 from .models import Post
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect , get_object_or_404
 from .forms import PostForm
 from django.core.paginator import Paginator
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PostSerializer
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 
 def home(request):
     query = request.GET.get('q', '')
@@ -26,6 +26,7 @@ def create_post(request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'پست با موفقیت ساخته شد!')
             return redirect('home')
     else:
         form = PostForm()
@@ -42,7 +43,7 @@ def post_list(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def post_detail(request, pk):
-    post = Post.objects.get(id=pk)
+    post = get_object_or_404(Post, id=pk)
 
     if request.method == 'GET':
         serializer = PostSerializer(post)
@@ -60,3 +61,29 @@ def post_detail(request, pk):
         post.delete()
         return Response({'message': 'حذف شد'})
     return Response({'error': 'method not allowed'})
+
+def post_page(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    return render(request, 'blog/post_detail.html', {'post': post})
+
+@login_required
+def edit_post(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'پست با موفقیت ویرایش شد!')
+            return redirect('post_page', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/edit_post.html', {'form': form})
+
+@login_required
+def delete_post(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, 'پست با موفقیت حذف شد!')
+        return redirect('home')
+    return render(request, 'blog/delete_post.html', {'post': post})

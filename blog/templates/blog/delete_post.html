@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>حذف پست</h1>
+    <p>مطمئنی میخوای "{{ post.title }}" رو حذف کنی؟</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">بله، حذف کن</button>
+        <a href="{% url 'post_page' post.pk %}">انصراف</a>
+    </form>
+{% endblock %}
