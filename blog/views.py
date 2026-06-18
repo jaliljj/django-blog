@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PostSerializer
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -19,7 +20,7 @@ def home(request):
 def about(request):
     return render (request, 'blog/about.html')
 
-
+@login_required
 def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
